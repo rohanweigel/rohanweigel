@@ -5,6 +5,7 @@ $(document).ready(function () {
         
         for (var i=0; i < grads_elmts.length; i++) {
             var rowid;
+            var Total;
             rowid = $('<tr/>');
             rowid.append("<td>" + grads_elmts[i].Name + "</td>");
             rowid.append("<td>" + grads_elmts[i].GPA + "</td>");
@@ -12,7 +13,6 @@ $(document).ready(function () {
             rowid.append("<td>" + grads_elmts[i].GRE_Q + "</td>");
             rowid.append("<td>" + grads_elmts[i].Essay + "</td>");
             rowid.append("<td>" + grads_elmts[i].Recom + "</td>");
-            console.log(i);
             $('#grad_data').append(rowid);
         }
     });
