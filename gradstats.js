@@ -3,7 +3,7 @@ $(document).ready(function () {
     
     $.getJSON("https://hivelab.org/static/students.json", function (grads_elmts) {
         
-        for (var i=1; i < grads_elmts.length; i++) {
+        for (var i=0; i < grads_elmts.length; i++) {
             var rowid;
             rowid = $('<tr/>');
             rowid.append("<td>" + grads_elmts[i].Name + "</td>");
@@ -12,7 +12,8 @@ $(document).ready(function () {
             rowid.append("<td>" + grads_elmts[i].GRE_Q + "</td>");
             rowid.append("<td>" + grads_elmts[i].Essay + "</td>");
             rowid.append("<td>" + grads_elmts[i].Recom + "</td>");
+            console.log(i);
             $('#grad_data').append(rowid);
-        });
+        }
     });
 });
