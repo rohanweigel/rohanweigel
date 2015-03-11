@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Exam 1 Chart - Seniors only</title>
+        <title>Exam 1 Chart - Stacked</title>
         <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
-        <script type="text/javascript" src="http://hivelab.org/static/exam1.json"></script>
+        <script type="text/javascript" src="https://hivelab.org/static/exam1.json"></script>
         
     </head>
     <body>
         <div class=title>
-        <h2>Senior IE Scores at 5 Universities</h2>
+        <h2>Stacked Bar Chart - 5 Universities</h2>
         </div>
         <style type = "text/css">
         div.title {
@@ -20,7 +20,6 @@
         <style type = "text/css">
     div.bar {
 				display: inline-block;
-        margin-left: -50;
 			}
             .axis path,
 			.axis line {
@@ -32,9 +31,13 @@
 				font-family: sans-serif;
 				font-size: 11px;
 			}
-            rect:hover {
+                rect:hover {
         fill: orange;
 }
+            {
+                margin-left: 200px;
+                margin-top: -200px;
+            }
             
             </style>
     </body>
@@ -42,21 +45,29 @@
     <script src="http://d3js.org/d3.v2.js"></script>
 <script>
 
-var dataset = [90, 91, 46, 100, 92];
+//var dataset = [90, 91, 46, 100, 92];
+    var dataset
     
-    d3.select("body").selectAll("div")
-    .data(dataset)
-    .enter()
-    .append("div")
-    .attr("class", "bar")
-    .style("height", function(d) {
-        var barHeight = d * 3;
-        return barHeight + "px";
-    });
+    d3.json("https://hivelab.org/static/exam1.json", function(data) {
+    var dataset = data;
+        console.log(dataset);
+        
+        var stack = d3.layout.stack();
+    
+    
+        });
+    
+    
+    stack(dataset);
+    
+    
 var w = 500,
     h = 500;
     var barPadding = 20;
     var padding = 20;
+    
+    
+    
     
     //x stuff
     var xScale = d3.scale.ordinal()
@@ -68,8 +79,7 @@ var w = 500,
 							  .orient("bottom")
     //y stuff
     var yScale = d3.scale.linear()
-    .domain([0, 100])
-    .range([h - padding, 170]);
+    .range([h - padding, h]);
     
     
     
@@ -77,6 +87,9 @@ var w = 500,
 							  .scale(yScale)
 							  .orient("left")
 							  .ticks(5);
+    //color stuff
+    var color = d3.scale.ordinal()
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"]);
     
     var svg = d3.select("body")
             .append("svg")
@@ -101,8 +114,12 @@ var w = 500,
     })
     .attr("fill", function(d) {
 					return "rgb(0, 0, " + (d * 10) + ")";
-			   });
-    //labels
+			   })
+    .on("click", function(d) {
+             console.log(d);
+});
+
+        //labels
     svg.selectAll("text")
 			   .data(dataset)
 			   .enter()
