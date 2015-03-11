@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Exam 1 Chart - Seniors only</title>
+        <script type="text/javascript" src="http://localhost:8000/d3.v3.js"></script>
+        <script type="text/javascript" src="http://localhost:8000/exam1.json"></script>
+        
+    </head>
+    <body>
+    <div id="chart"></div>
+    </body>
+    <svg class="chart"></svg>
+    <script src="d3.v3.js"></script>
+<script>
+
+var width = 960,
+    height = 500;
+
+var x = d3.scale.ordinal()
+    .domain(["University A", "University B","University C","University D","University E"])
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .domain([90, 91, 46, 100, 92])
+    .range([height, 0]);
+
+
+    
+    var chart = d3.select(".chart")
+    .attr("width", width)
+    .attr("height", height);
+
+    var dataset;
+
+    d3.json("exam1.json", function(data) {
+    dataset = data
+    console.log(dataset);
+    var seniors = dataset.slice(3,4);
+        console.log(seniors);
+       var newarray = seniors.map(function(obj){
+           
+           obj.University = seniors(1);
+           return 
+  });
+        
+        /* x.domain(data.map(function(d) { return d."University A"; })); 
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+    
+
+  var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      //.attr("transform", function(d) { return "translate(" + x(d.University) + ",0)"; });
+
+  bar.append("rect")
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("width", x.rangeBand());
+
+  bar.append("text")
+      .attr("x", x.rangeBand() / 2)
+      .attr("y", function(d) { return y(d.value) + 3; })
+      .attr("dy", ".75em")
+      .text(function(d) { return d.value; });
+});
+
+function type(d) {
+  d.value = +d.value; // coerce to number
+  return d;
+} */
+</script>
+ 
+</html>
