@@ -1,34 +1,28 @@
 [
-   {
-      "Year":"Freshman",
-      "University A":120,
-      "University B":63,
-      "University C":55,
-      "University D":124,
-      "University E":90
-   },
-   {
-      "Year":"Sophomore",
-      "University A":98,
-      "University B":70,
-      "University C":40,
-      "University D":90,
-      "University E":93
-   },
-   {
-      "Year":"Junior",
-      "University A":100,
-      "University B":92,
-      "University C":48,
-      "University D":101,
-      "University E":99
-   },
-   {
-      "Year":"Senior",
-      "University A":90,
-      "University B":91,
-      "University C":46,
-      "University D":100,
-      "University E":92
-   }
-] 
+     {x: "University A", y:120},
+     {x: "University B", y:63},
+     {x: "University C", y:55},
+     {x: "University D", y:124},
+     {x: "University E", y:90}
+],
+  [
+    {x: "University A", y:98},
+    {x: "University B", y:70},
+    {x: "University C", y:40},
+    {x: "University D", y:90},
+    {x: "University E", y:93}
+],
+ [
+    {x: "University A", y:100},
+    {x: "University B", y:92},
+    {x: "University C", y:48},
+    {x: "University D", y:101},
+    {x: "University E", y:99}
+],
+
+[   {x: "University A", y:90},
+    {x: "University B", y:91},
+    {x: "University C", y:46},
+    {x: "University D", y:100},
+    {x: "University E", y:92}
+];
