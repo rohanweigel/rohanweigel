@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Homework 4 - Coffee Treemap</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+        <script type="text/javascript" src="https://hivelab.org/static/coffee.csv"></script>
+        
+    </head>
+    <style>
+    body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+    
+</style>
+    
+<form>
+  <label><input type="radio" name="mode" value="sales" checked> Sales</label>
+  <label><input type="radio" name="mode" value="profit"> Profit</label>
+</form>
+    
+    <script src="http://d3js.org/d3.v2.js"></script>
+<script type="text/javascript">
+    
+    // margins, width and height
+    var margin = {top: 40, right: 10, bottom: 10, left: 10},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    
+    //color categories
+    var color = d3.scale.category10();
+    
+    //treemap decalaration
+    var treemap = d3.layout.treemap()
+    .size([width, height])
+    .sticky(true)
+    .value(function(d) { return d.profit; })
+    
+    //declare div
+    var div = d3.select("body").append("div")
+    .style("position", "relative")
+    .style("width", (width + margin.left + margin.right) + "px")
+    .style("height", (height + margin.top + margin.bottom) + "px")
+    .style("left", margin.left + "px")
+    .style("top", margin.top + "px");
+    
+    //bring in data from csv
+    d3.csv("https://hivelab.org/static/coffee.csv", function(data) {
+    var dataset = data;
+        console.log(dataset);
+        
+        for (var i=0 ; i <dataset.length ; i++) {
+            dataset[i].sales = parseInt(dataset[i].sales);
+            dataset[i].profit = parseInt(dataset[i].profit);
+        };
+        
+        var treeData = { "key" :"Coffee", "values":
+            d3.nest()
+        .key(function(d) { return d.region; })
+        .key(function(d) { return d.state; }).sortKeys(d3.ascending)
+        .key(function(d) { return d.category; })
+        .entries(dataset)    
+        //console.log(treedata)
+                       };
+        
+        var treeData2 = { "name": "Coffee", "children":
+        treeData.values.map( function(region_coffee){
+
+            return { "name": region_coffee.key, "children": 
+              region_coffee.values.map( function(state_coffee){
+
+                 return { "name": state_coffee.key, "children": 
+                   state_coffee.values.map(function(category_coffee){
+
+                      return { "name": category_coffee.key, "children": category_coffee.values };
+        }) //end of map(function(country){
+                 };
+
+              }) //end of map(function(region){
+            }; 
+
+         }) //end of map(function(major){
+      }; //end of var declaration
+             console.log(treeData2);           
+                        
+        var node = div.datum(treeData2).selectAll(".node")
+      .data(treemap.nodes)
+    .enter().append("div")
+      .attr("class", "node")
+      .call(position)
+      .style("background", function(d) { return d.children ? color(d.name) : null; })
+      .text(function(d) { return d.children ? null : d.name; });
+   
+        d3.selectAll("input").on("change", function change() {
+    var value = this.value === "count"
+        ? function() { return 1; }
+        : function(d) { return d.profit; };
+            
+        node
+        .data(treemap.value(value).nodes)
+      .transition()
+        .duration(1500)
+        .call(position);
+        });
+    });
+    function position() {
+  this.style("left", function(d) { return d.x + "px"; })
+      .style("top", function(d) { return d.y + "px"; })
+      .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+      .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+    }
+    </script>
+</html>
