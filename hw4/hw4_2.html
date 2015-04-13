@@ -60,7 +60,9 @@ rect.parent {
  
 <h1>Zoomable Treemap - Rohan Weigel - IE 590 HW 4</h1>
 <h2>Coffee Sales by Region, State, Category and Type</h2>
-<h3>Code and styling ideas from: https://gist.github.com/maw246/7303963#file-hier-csv<br>Data from: https://hivelab.org/static/coffee.csv</h3>    
+<h3>Code and styling ideas from: https://gist.github.com/maw246/7303963#file-hier-csv<br>Data from: https://hivelab.org/static/coffee.csv</h3>
+    <h4>Exam 1 Bar Chart Links (Redo)</h4>
+        <a href="http://rohanweigel.github.io/exam1/Examlinks.html">Seniors Only Bar Chart (3.1)</a><br>
  
 <p id="chart"></p>
  
@@ -133,12 +135,6 @@ console.log(root);
  
 var button_sales = document.getElementById("Sales");
 var button_profits = document.getElementById("Profits");    
-
-    //if (button_sales.checked == true){
-        //button_profits.checked = false;}
-    
-    //if (button_profits.checked == true){
-        //button_sales.checked = false;}
     
 var treemap = d3.layout.treemap()
     .children(function(d, depth) { return depth ? null : d.values; })
@@ -270,7 +266,7 @@ var treemap = d3.layout.treemap()
         .attr("y", function(d) { return y(d.y); })
         .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
         .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
-      .style("background", function(d) { return d.parent ? color(d.name) : null; });
+        .style("background", function(d) { return d.values ? color(d.parent) : null; });
   }
 
   function name(d) {
