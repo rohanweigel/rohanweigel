@@ -30,6 +30,38 @@ body {
 </style>        
         
 <body>
+    
+<div id="UnivAonly">
+    <input name="updateButton" 
+           type="button" 
+           value="University A" 
+           onclick="updateData()" />
+</div>    
+<div id="UnivBonly">
+    <input name="updateButton" 
+           type="button" 
+           value="University B" 
+           onclick="updateDataB()" />
+</div>    
+<div id="UnivConly">
+    <input name="updateButton" 
+           type="button" 
+           value="University C" 
+           onclick="updateDataC()" />
+</div>
+<div id="UnivDonly">
+    <input name="updateButton" 
+           type="button" 
+           value="University D" 
+           onclick="updateDataD()" />
+</div>
+    <div id="UnivEonly">
+    <input name="updateButton" 
+           type="button" 
+           value="University E" 
+           onclick="updateDataE()" />
+</div>
+    
     <script src="http://d3js.org/d3.v2.js"></script>
 <script type="text/javascript">
 
@@ -105,7 +137,26 @@ color.domain(d3.keys(univs[0]).filter(function(key) { return key !== "Year"; }))
 
   x.domain(univs.map(function(d) { return d.Year; }));
   y.domain([0, d3.max(univs, function(d) { return d.total; })]);
+        
+  var legend = svg.selectAll(".legend")
+      .data(color.domain().slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 12 + ")"; });
+        
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 8)
+      .attr("height", 8)
+      .style("fill", color);
 
+  legend.append("text")
+      .attr("x", width - 28)
+      .attr("y", 3)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+        
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
@@ -127,6 +178,7 @@ color.domain(d3.keys(univs[0]).filter(function(key) { return key !== "Year"; }))
       .attr("class", "g")
       .attr("transform", function(d) { return "translate(" + x(d.Year) + ",0)"; });
 
+
   year.selectAll("rect")
       .data(function(d) { return d.grades; })
     .enter().append("rect")
@@ -134,27 +186,33 @@ color.domain(d3.keys(univs[0]).filter(function(key) { return key !== "Year"; }))
       .attr("y", function(d) { return y(d.y1); })
       .attr("height", function(d) { return y(d.y0) - y(d.y1); })
       .style("fill", function(d) { return color(d.name); });
-
-  var legend = svg.selectAll(".legend")
-      .data(color.domain().slice().reverse())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 12 + ")"; });
-
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 8)
-      .attr("height", 8)
-      .style("fill", color);
-
-  legend.append("text")
-      .attr("x", width - 28)
-      .attr("y", 3)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function(d) { return d; });
         
-        });
+   function updateData() {
+
+    var year = svg.selectAll(".year")
+      .data(univs)
+    .enter().append("g")
+      .attr("class", "g")
+      .attr("transform", function(d) { return "translate(" - y(d.Year) + ",100)"; });
+
+
+  year.selectAll("rect")
+      .data(function(d) { return d.grades; })
+    .enter().append("rect")
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.y1); })
+      .attr("height", function(d) { return y(d.y0) - y(d.y1); })
+      .style("fill", function(d) { return color(d.name); });
+   };
+        
+  });
+      
+
+
+
+        
+        
+    
 
 </script>
 </html>
